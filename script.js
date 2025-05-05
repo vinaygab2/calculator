@@ -4,35 +4,51 @@ const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 
 let num1, num2, operator;
+const calculator = document.querySelector('#calculator');
+const display = document.querySelector('#display');
+const button = document.querySelectorAll('button');
 
 const operate = (num1, num2, operator) => {
   switch (operator) {
     case '+':
-      console.log(add(num1, num2));
+      return add(num1, num2);
       break;
 
     case '-':
-      console.log(subtract(num1, num2));
+      return subtract(num1, num2);
       break;
 
     case '*':
-      console.log(multiply(num1, num2));
+      return multiply(num1, num2);
       break;
 
     case '/':
-      console.log(divide(num1, num2));
+      return divide(num1, num2);
       break;
 
     default:
-      console.log('Please enter a valid operator!');
       break;
   }
 };
 
-switch (key) {
-  case value:
-    break;
-
-  default:
-    break;
-}
+calculator.addEventListener('click', (e) => {
+  if (e.target.classList.contains('digits')) {
+    if (operator === undefined) {
+      display.textContent = display.textContent + e.target.textContent;
+      num1 = Number(display.textContent);
+      console.log('num1 is', num1);
+    } else {
+      display.textContent = display.textContent + e.target.textContent;
+      num2 = Number(display.textContent);
+      console.log('num2 is', num2);
+    }
+  } else if (e.target.classList.contains('clear')) {
+    display.textContent = '';
+    operator = undefined;
+  } else if (e.target.classList.contains('operator')) {
+    display.textContent = '';
+    operator = e.target.textContent;
+  } else if (e.target.classList.contains('equals')) {
+    display.textContent = String(operate(num1, num2, operator));
+  }
+});
