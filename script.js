@@ -9,6 +9,9 @@ const display = document.querySelector('#display');
 const button = document.querySelectorAll('button');
 
 const operate = (num1, num2, operator) => {
+  if (num1 === undefined) {
+    num1 = 0;
+  }
   switch (operator) {
     case '+':
       return add(num1, num2);
