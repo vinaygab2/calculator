@@ -6,6 +6,7 @@ const divide = (a, b) => a / b;
 let num1, num2, operator, equalsPressed;
 const calculator = document.querySelector('#calculator');
 const display = document.querySelector('#display');
+const operatorBtns = document.querySelectorAll('.operator');
 
 const operate = (num1, num2, operator) => {
   switch (operator) {
@@ -31,6 +32,13 @@ const operate = (num1, num2, operator) => {
 };
 
 calculator.addEventListener('click', (e) => {
+  // remove opacity on operator buttons if other buttons are clicked
+  if (e.target.classList.contains('operator') === false) {
+    operatorBtns.forEach((operatorBtn) =>
+      operatorBtn.classList.remove('btnPressed')
+    );
+  }
+  // if digit buttons are clicked
   if (e.target.classList.contains('digits')) {
     if (operator === undefined) {
       if (equalsPressed === true) {
@@ -55,6 +63,7 @@ calculator.addEventListener('click', (e) => {
     num2 = undefined;
   } else if (e.target.classList.contains('operator')) {
     operator = e.target.textContent;
+    e.target.classList.add('btnPressed');
   } else if (e.target.classList.contains('equals')) {
     if (num1 === undefined) {
       num1 = 0;

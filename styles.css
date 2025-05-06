@@ -28,6 +28,10 @@ body {
   border-radius: 8%;
 }
 
+.btnPressed {
+  opacity: 0.5;
+}
+
 #calculator button#zero {
   width: 200px;
 }
