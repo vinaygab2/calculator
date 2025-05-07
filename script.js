@@ -55,6 +55,9 @@ calculator.addEventListener('click', (e) => {
       }
       // display first number
       if (dotClicked === 0 || dotClicked === 1) {
+        if (display.textContent === '0') {
+          display.textContent = '';
+        }
         display.textContent = display.textContent + e.target.textContent;
         num1 = Number(display.textContent);
         console.log('num1 is', num1);
@@ -72,7 +75,7 @@ calculator.addEventListener('click', (e) => {
       }
     }
   } else if (e.target.classList.contains('clear')) {
-    display.textContent = '';
+    display.textContent = '0';
     operator = undefined;
     num1 = undefined;
     num2 = undefined;
