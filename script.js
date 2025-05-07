@@ -3,7 +3,11 @@ const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
 const divide = (a, b) => a / b;
 
-let num1, num2, operator, equalsPressed;
+let num1,
+  num2,
+  operator,
+  equalsPressed,
+  dotClicked = 0;
 const calculator = document.querySelector('#calculator');
 const display = document.querySelector('#display');
 const operatorBtns = document.querySelectorAll('.operator');
@@ -38,32 +42,45 @@ calculator.addEventListener('click', (e) => {
       operatorBtn.classList.remove('btnPressed')
     );
   }
+  if (e.target.classList.contains('dot')) {
+    dotClicked = dotClicked + 1;
+  }
   // if digit buttons are clicked
   if (e.target.classList.contains('digits')) {
     if (operator === undefined) {
+      // clear display of previous calculation
       if (equalsPressed === true) {
         equalsPressed = false;
         display.textContent = '';
       }
-      display.textContent = display.textContent + e.target.textContent;
-      num1 = Number(display.textContent);
-      console.log('num1 is', num1);
+      // display first number
+      if (dotClicked === 0 || dotClicked === 1) {
+        display.textContent = display.textContent + e.target.textContent;
+        num1 = Number(display.textContent);
+        console.log('num1 is', num1);
+      }
     } else {
+      // clear display to enter second number after operator is clicked
       if (num2 === undefined) {
         display.textContent = '';
       }
-      display.textContent = display.textContent + e.target.textContent;
-      num2 = Number(display.textContent);
-      console.log('num2 is', num2);
+      // display second number
+      if (dotClicked === 0 || dotClicked === 1) {
+        display.textContent = display.textContent + e.target.textContent;
+        num2 = Number(display.textContent);
+        console.log('num2 is', num2);
+      }
     }
   } else if (e.target.classList.contains('clear')) {
     display.textContent = '';
     operator = undefined;
     num1 = undefined;
     num2 = undefined;
+    dotClicked = 0;
   } else if (e.target.classList.contains('operator')) {
     operator = e.target.textContent;
     e.target.classList.add('btnPressed');
+    dotClicked = 0;
   } else if (e.target.classList.contains('equals')) {
     if (num1 === undefined) {
       num1 = 0;
