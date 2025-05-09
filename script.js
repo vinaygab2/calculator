@@ -46,6 +46,17 @@ calculator.addEventListener('click', (e) => {
   if (e.target.classList.contains('dot')) {
     dotClicked = dotClicked + 1;
   }
+  if (e.target.classList.contains('sign')) {
+    if (operator === undefined) {
+      display.textContent = String(Number(display.textContent) * -1);
+      num1 = Number(display.textContent);
+      console.log('NUM1 IS', num1);
+    } else if (operator !== undefined) {
+      display.textContent = String(Number(display.textContent) * -1);
+      num2 = Number(display.textContent);
+      console.log('NUM2 IS', num2);
+    }
+  }
   // if digit buttons are clicked
   if (e.target.classList.contains('digits')) {
     if (operator === undefined) {
