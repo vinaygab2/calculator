@@ -7,7 +7,8 @@ let num1,
   num2,
   operator,
   equalsPressed,
-  dotClicked = 0;
+  dotClicked = 0,
+  loopStart = false;
 const calculator = document.querySelector('#calculator');
 const display = document.querySelector('#display');
 const operatorBtns = document.querySelectorAll('.operator');
@@ -51,13 +52,25 @@ calculator.addEventListener('click', (e) => {
       // clear display of previous calculation
       if (equalsPressed === true) {
         equalsPressed = false;
+        display.textContent = '0';
+      }
+
+      // display first number
+      if (num1 === undefined && !e.target.classList.contains('dot')) {
         display.textContent = '';
       }
-      // display first number
-      if (dotClicked === 0 || dotClicked === 1) {
-        if (display.textContent === '0') {
-          display.textContent = '';
-        }
+      if (loopStart === true && e.target.classList.contains('dot')) {
+        loopStart = false;
+      }
+      if (loopStart === true && !e.target.classList.contains('dot')) {
+        loopStart = false;
+        display.textContent = '';
+      }
+      if (
+        dotClicked === 0 ||
+        dotClicked === 1 ||
+        (dotClicked > 1 && !e.target.classList.contains('dot'))
+      ) {
         display.textContent = display.textContent + e.target.textContent;
         num1 = Number(display.textContent);
         console.log('num1 is', num1);
@@ -65,25 +78,35 @@ calculator.addEventListener('click', (e) => {
     } else {
       // clear display to enter second number after operator is clicked
       if (num2 === undefined) {
-        display.textContent = '';
+        if (e.target.classList.contains('dot')) {
+          display.textContent = '0';
+        } else {
+          display.textContent = '';
+        }
       }
+
       // display second number
-      if (dotClicked === 0 || dotClicked === 1) {
+      if (
+        dotClicked === 0 ||
+        dotClicked === 1 ||
+        (dotClicked > 1 && !e.target.classList.contains('dot'))
+      ) {
         display.textContent = display.textContent + e.target.textContent;
         num2 = Number(display.textContent);
         console.log('num2 is', num2);
       }
     }
   } else if (e.target.classList.contains('clear')) {
-    display.textContent = '0';
     operator = undefined;
     num1 = undefined;
     num2 = undefined;
     dotClicked = 0;
+    display.textContent = '0';
+    loopStart = false;
   } else if (e.target.classList.contains('operator')) {
     operator = e.target.textContent;
     e.target.classList.add('btnPressed');
-    dotClicked = 0;
+    dotClicked = 0; // to ensure num2 can have decimal point
   } else if (e.target.classList.contains('equals')) {
     if (num1 === undefined) {
       num1 = 0;
@@ -97,6 +120,8 @@ calculator.addEventListener('click', (e) => {
       num2 = undefined;
       operator = undefined;
       equalsPressed = true;
+      dotClicked = 0;
+      loopStart = true;
     }
   }
 });
