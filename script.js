@@ -8,7 +8,9 @@ let num1,
   operator,
   equalsPressed,
   dotClicked = 0,
-  loopStart = false;
+  loopStart = false,
+  currentNum1,
+  currentNum2;
 const calculator = document.querySelector('#calculator');
 const display = document.querySelector('#display');
 const operatorBtns = document.querySelectorAll('.operator');
@@ -46,6 +48,8 @@ calculator.addEventListener('click', (e) => {
   if (e.target.classList.contains('dot')) {
     dotClicked = dotClicked + 1;
   }
+
+  // toggle sign of number
   if (e.target.classList.contains('sign')) {
     if (operator === undefined) {
       display.textContent = String(Number(display.textContent) * -1);
@@ -57,6 +61,21 @@ calculator.addEventListener('click', (e) => {
       console.log('NUM2 IS', num2);
     }
   }
+
+  // backspace behaviour
+  if (e.target.classList.contains('backspace')) {
+    if (display.textContent.slice(-1) === '.') {
+      dotClicked = 0;
+    }
+    if (operator === undefined) {
+      display.textContent = display.textContent.slice(0, -1);
+      num1 = Number(display.textContent);
+    } else if (operator !== undefined) {
+      display.textContent = display.textContent.slice(0, -1);
+      num2 = Number(display.textContent);
+    }
+  }
+
   // if digit buttons are clicked
   if (e.target.classList.contains('digits')) {
     if (operator === undefined) {
@@ -84,7 +103,6 @@ calculator.addEventListener('click', (e) => {
       ) {
         display.textContent = display.textContent + e.target.textContent;
         num1 = Number(display.textContent);
-        console.log('num1 is', num1);
       }
     } else {
       // clear display to enter second number after operator is clicked
@@ -104,7 +122,6 @@ calculator.addEventListener('click', (e) => {
       ) {
         display.textContent = display.textContent + e.target.textContent;
         num2 = Number(display.textContent);
-        console.log('num2 is', num2);
       }
     }
   } else if (e.target.classList.contains('clear')) {
@@ -126,7 +143,9 @@ calculator.addEventListener('click', (e) => {
       num2 = num1;
     }
     if (operator !== undefined) {
-      display.textContent = String(operate(num1, num2, operator));
+      display.textContent = String(
+        operate(num1, num2, operator) //.toPrecision(14)
+      );
       num1 = Number(display.textContent);
       num2 = undefined;
       operator = undefined;
