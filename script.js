@@ -41,10 +41,10 @@ const operate = (num1, num2, operator) => {
 
 function displayResult() {
   result = operate(num1, num2, operator);
-  if (result.length < 15) {
+  if (result.length < 11) {
     display.textContent = String(result);
   } else {
-    display.textContent = String(Number(result.toPrecision(14)));
+    display.textContent = String(Number(result.toPrecision(10)));
   }
 
   num1 = Number(display.textContent);
