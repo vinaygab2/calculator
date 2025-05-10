@@ -39,6 +39,22 @@ const operate = (num1, num2, operator) => {
   }
 };
 
+function displayResult() {
+  result = operate(num1, num2, operator);
+  if (result.length < 15) {
+    display.textContent = String(result);
+  } else {
+    display.textContent = String(Number(result.toPrecision(14)));
+  }
+
+  num1 = Number(display.textContent);
+  num2 = undefined;
+  operator = undefined;
+  equalsPressed = true;
+  dotClicked = 0;
+  loopStart = true;
+}
+
 calculator.addEventListener('click', (e) => {
   // remove opacity on operator buttons if other buttons are clicked
   if (e.target.classList.contains('operator') === false) {
@@ -133,6 +149,10 @@ calculator.addEventListener('click', (e) => {
     display.textContent = '0';
     loopStart = false;
   } else if (e.target.classList.contains('operator')) {
+    e.target.classList.remove('btnPressed');
+    if (num1 !== undefined && num2 !== undefined && operator !== undefined) {
+      displayResult();
+    }
     operator = e.target.textContent;
     e.target.classList.add('btnPressed');
     dotClicked = 0; // to ensure num2 can have decimal point
@@ -140,23 +160,11 @@ calculator.addEventListener('click', (e) => {
     if (num1 === undefined) {
       num1 = 0;
     }
-    if (num2 === undefined) {
+    if (num2 === undefined && operator !== undefined) {
       num2 = num1;
     }
     if (operator !== undefined) {
-      result = operate(num1, num2, operator);
-      if (result.length < 16) {
-        display.textContent = String(result);
-      } else {
-        display.textContent = String(Number(result.toPrecision(15)));
-      }
-
-      num1 = Number(display.textContent);
-      num2 = undefined;
-      operator = undefined;
-      equalsPressed = true;
-      dotClicked = 0;
-      loopStart = true;
+      displayResult();
     }
   }
 });
