@@ -10,7 +10,8 @@ let num1,
   dotClicked = 0,
   loopStart = false,
   currentNum1,
-  currentNum2;
+  currentNum2,
+  result;
 const calculator = document.querySelector('#calculator');
 const display = document.querySelector('#display');
 const operatorBtns = document.querySelectorAll('.operator');
@@ -143,9 +144,13 @@ calculator.addEventListener('click', (e) => {
       num2 = num1;
     }
     if (operator !== undefined) {
-      display.textContent = String(
-        operate(num1, num2, operator) //.toPrecision(14)
-      );
+      result = operate(num1, num2, operator);
+      if (result.length < 16) {
+        display.textContent = String(result);
+      } else {
+        display.textContent = String(Number(result.toPrecision(15)));
+      }
+
       num1 = Number(display.textContent);
       num2 = undefined;
       operator = undefined;
